@@ -1,5 +1,6 @@
 package com.main.canvas.canvas;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
@@ -49,12 +50,13 @@ public class App implements MouseListener,KeyListener,MouseMotionListener
     public void draw() {
     	JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setLayout(new BorderLayout());
         jf.setSize(1100,1100);
         jf.setTitle("Path Visualizer");
         c.addKeyListener(this);
         c.addMouseListener(this);
         c.addMouseMotionListener(this);
-        jf.add(c);
+        jf.add(c,BorderLayout.CENTER);
         jf.setVisible(true);
       
     }
@@ -75,7 +77,7 @@ public class App implements MouseListener,KeyListener,MouseMotionListener
     				if(i!=19) {
     					if(!prohibited.contains(i+1))G[i].add(i+1);
     				}
-    			}else if(i>20*19) {
+    			}else if(i>=20*19) {
     				if(!prohibited.contains(i-20))G[i].add(i-20);
     				if(i!=20*19) {
     					if(!prohibited.contains(i-1))G[i].add(i-1);
