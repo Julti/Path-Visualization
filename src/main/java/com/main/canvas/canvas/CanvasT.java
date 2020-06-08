@@ -6,11 +6,16 @@ import java.awt.Graphics;
 public class CanvasT extends Canvas{
 	 int x_source =-1;
 	 int y_source = -1;
+	 int size = 30;
+	 int grid_size = 30;
+	 public void Canvas() {
+		 
+	 }
 	 @Override
 	    public void paint(Graphics g) {
-	      	for (int i = 0; i < 20; i++) {
-				for (int j = 0; j < 20; j++) {
-						g.drawRect(i*50, j*50, 50, 50);
+	      	for (int i = 0; i < grid_size; i++) {
+				for (int j = 0; j < grid_size; j++) {
+						g.drawRect(i*size, j*size, size, size);
 				}
 			}
 	    }
