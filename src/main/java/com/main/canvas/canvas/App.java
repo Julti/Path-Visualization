@@ -32,7 +32,7 @@ import com.main.structure.Graph;
  * Hello world!
  *
  */
-public class App implements MouseListener,KeyListener,MouseMotionListener
+public class App implements MouseListener,KeyListener,MouseMotionListener,ActionListener
 {
 	private boolean sourceset = false;
 	private boolean destset = false;
@@ -57,17 +57,27 @@ public class App implements MouseListener,KeyListener,MouseMotionListener
     	JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setLayout(new BorderLayout());
-        jf.setSize(1100,1100);
+        jf.setSize(1000,1000);
         jf.setTitle("Path Visualizer");
         c.addKeyListener(this);
         c.addMouseListener(this);
         c.addMouseMotionListener(this);
         JPanel bottom = new JPanel();
         bottom.setBackground(Color.WHITE);
+        bottom.setLayout(new GridLayout(1,4));
+        JButton dfs = new JButton("DFS");
+        dfs.setActionCommand("dfs");
+        dfs.addActionListener(this);
+        JButton bfs = new JButton("BFS");
+        bfs.setActionCommand("bfs");
+        bfs.addActionListener(this);
+        bottom.add(new JPanel());
+        bottom.add(dfs);
+        bottom.add(bfs);
+        bottom.add(new JPanel());
         jf.add(c,BorderLayout.CENTER);
         jf.add(bottom,BorderLayout.SOUTH);
         jf.setVisible(true);
-      
     }
    
 	@Override
@@ -135,15 +145,35 @@ public class App implements MouseListener,KeyListener,MouseMotionListener
 	}
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		c.x_source=(arg0.getX()/square_size)*square_size;
-		c.y_source =(arg0.getY()/square_size)*square_size;
-		int point =(arg0.getY()/square_size*grid_size)+(arg0.getX()/square_size);
-		if(!prohibited.contains(point))prohibited.add(point);
-		Graphics g = c.getGraphics();
-		g.fill3DRect(c.x_source, c.y_source, square_size, square_size, true);
+		if(sourceset&&destset) {
+			c.x_source=(arg0.getX()/square_size)*square_size;
+			c.y_source =(arg0.getY()/square_size)*square_size;
+			int point =(arg0.getY()/square_size*grid_size)+(arg0.getX()/square_size);
+			if(!prohibited.contains(point))prohibited.add(point);
+			Graphics g = c.getGraphics();
+			g.fill3DRect(c.x_source, c.y_source, square_size, square_size, true);
+		}
+		
 	}
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Graph g = new Graph(c, source, destination, square_size, grid_size, prohibited);
+		
+		switch (e.getActionCommand()) {
+		case "dfs":
+			g.buildGraph(0);
+			break;
+		case "bfs":
+			g.buildGraph(1);
+			break;
+		default:
+			break;
+		}
 		
 	}
 }
